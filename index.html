@@ -243,9 +243,11 @@
         // A lista inicial solicitada (com os jogadores)
         const INITIAL_LIST = [
             { id: '1', name: 'zIronTank', charClass: 'Mecanico', level: 111, currentExp: 0, reqExp: 1000000 },
-            { id: '12', name: 'FIGHTNEWS', charClass: 'Lutador', level: 110, currentExp: 0, reqExp: 1000000 }, // 0%
+            { id: '12', name: 'FIGHTNEWS', charClass: 'Lutador', level: 110, currentExp: 0, reqExp: 1000000 },
+            { id: '13', name: 'AkSniper', charClass: 'Arqueira', level: 108, currentExp: 20000, reqExp: 1000000 }, // 2%
+            { id: '14', name: 'ThG', charClass: 'Pike', level: 106, currentExp: 700000, reqExp: 1000000 }, // 70%
             { id: '2', name: 'Berrettini', charClass: 'Assassina', level: 106, currentExp: 10000, reqExp: 1000000 }, // 1%
-            { id: '3', name: 'XxDanxX', charClass: 'Lutador', level: 103, currentExp: 200000, reqExp: 1000000 }, // 20%
+            { id: '3', name: 'XxDanxX', charClass: 'Lutador', level: 104, currentExp: 10000, reqExp: 1000000 }, // 1%
             { id: '4', name: 'EliteGRV', charClass: 'Mecanico', level: 102, currentExp: 100000, reqExp: 1000000 }, // 10%
             { id: '5', name: 'MJASPER', charClass: 'Cavaleiro', level: 102, currentExp: 50000, reqExp: 1000000 }, // 5%
             { id: '6', name: 'DrivoFs', charClass: 'Lutador', level: 102, currentExp: 20000, reqExp: 1000000 }, // 2%
@@ -262,7 +264,7 @@
 
         // Inicializa ou recupera do LocalStorage
         let members = [];
-        const savedData = localStorage.getItem('donosdomapa_html_data_v3');
+        const savedData = localStorage.getItem('donosdomapa_html_data_v4');
         if (savedData) {
             members = JSON.parse(savedData);
         } else {
