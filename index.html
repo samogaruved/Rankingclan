@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DonosDoMapa - Priston Tale</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Configuração de fontes e cores do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#151e2e',
+                            950: '#020617',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonte Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Barra de rolagem customizada */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200 font-sans selection:bg-amber-500/30 min-h-screen relative pb-12">
+
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black opacity-80"></div>
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-amber-600/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-black mb-3 tracking-tighter bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 bg-clip-text text-transparent drop-shadow-sm">
+                DonosDoMapa
+            </h1>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-amber-500/30 text-amber-400/90 text-sm font-semibold tracking-wide backdrop-blur-sm shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                <i class="fa-solid fa-shield-halved"></i>
+                Servidor: Priston Tale Brasil (BPT)
+            </div>
+        </header>
+
+        <!-- Main Content Card -->
+        <main class="bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-hidden">
+            
+            <!-- Toolbar -->
+            <div class="p-6 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/80">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-trophy text-amber-500 text-2xl"></i>
+                    <h2 class="text-2xl font-bold text-slate-100">Ranking de Batalha</h2>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button id="btn-add-member" onclick="openAddModal()" class="hidden items-center gap-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white px-4 py-2 rounded-lg font-medium transition-all shadow-lg shadow-amber-900/20">
+                        <i class="fa-solid fa-plus"></i>
+                        Adicionar Membro
+                    </button>
+                    <button id="btn-admin-login" onclick="openLoginModal()" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-lg font-medium transition-all border border-slate-700">
+                        <i class="fa-solid fa-lock"></i>
+                        Acesso Admin
+                    </button>
+                    <button id="btn-admin-logout" onclick="logoutAdmin()" class="hidden items-center gap-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-4 py-2 rounded-lg font-medium transition-all border border-rose-500/20">
+                        <i class="fa-solid fa-lock-open"></i>
+                        Sair do Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Desktop Table View -->
+            <div class="hidden md:block overflow-x-auto w-full">
+                <table class="w-full text-left border-collapse min-w-[800px]">
+                    <thead>
+                        <tr class="bg-slate-950/50 text-slate-400 text-sm uppercase tracking-wider">
+                            <th class="p-4 font-semibold w-16 text-center">Pos</th>
+                            <th class="p-4 font-semibold">Guerreiro</th>
+                            <th class="p-4 font-semibold w-32 text-center">Nível</th>
+                            <th class="p-4 font-semibold w-1/3">Progresso (EXP)</th>
+                            <th id="th-acoes" class="p-4 font-semibold w-24 text-center hidden">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="desktop-table-body" class="divide-y divide-slate-800/50">
+                        <!-- O conteúdo será preenchido via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile View -->
+            <div id="mobile-list-container" class="md:hidden flex flex-col p-4 gap-4">
+                <!-- O conteúdo será preenchido via JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: Adicionar Membro -->
+    <div id="add-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 shadow-2xl transform scale-95 transition-transform duration-200" id="add-modal-content">
+            <h3 class="text-xl font-bold text-white mb-6">Recrutar Novo Membro</h3>
+            <form id="add-form" onsubmit="handleAdd(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">Nome do Personagem</label>
+                    <input type="text" id="add-name" required maxlength="30" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">Classe</label>
+                    <select id="add-class" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-amber-500">
+                        <optgroup label="Tempskron">
+                            <option value="Lutador">Lutador</option>
+                            <option value="Mecanico">Mecânico</option>
+                            <option value="Arqueira">Arqueira</option>
+                            <option value="Pike">Pike</option>
+                            <option value="Assassina">Assassina</option>
+                            <option value="Guerreira">Guerreira</option>
+                        </optgroup>
+                        <optgroup label="Morion">
+                            <option value="Cavaleiro">Cavaleiro</option>
+                            <option value="Atalanta">Atalanta</option>
+                            <option value="Sacerdotisa">Sacerdotisa</option>
+                            <option value="Mago">Mago</option>
+                            <option value="Xama">Xamã</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Nível</label>
+                        <input type="number" id="add-level" required min="1" max="300" value="1" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">EXP (%)</label>
+                        <input type="number" id="add-exp" required min="0" max="99.99" step="0.01" value="0" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('add-modal')" class="px-4 py-2 text-slate-400 hover:text-white transition-colors">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg font-medium transition-colors">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Editar Status -->
+    <div id="edit-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-sm p-6 shadow-2xl transform scale-95 transition-transform duration-200" id="edit-modal-content">
+            <h3 class="text-xl font-bold text-white mb-2">Atualizar Status</h3>
+            <p class="text-slate-400 text-sm mb-6">Atualize o nível e EXP de <span id="edit-player-name" class="text-amber-400 font-bold">Jogador</span></p>
+            <form id="edit-form" onsubmit="handleEdit(event)" class="space-y-4">
+                <input type="hidden" id="edit-id">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Nível Atual</label>
+                        <input type="number" id="edit-level" required min="1" max="300" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-amber-400 font-bold focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Nova EXP (%)</label>
+                        <input type="number" id="edit-exp" required min="0" max="99.99" step="0.01" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-cyan-400 font-bold focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('edit-modal')" class="px-4 py-2 text-slate-400 hover:text-white transition-colors">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-medium transition-colors">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Exclusão -->
+    <div id="delete-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-rose-900/50 rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center transform scale-95 transition-transform duration-200" id="delete-modal-content">
+            <div class="w-16 h-16 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-trash-can text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Expulsar do Clã?</h3>
+            <p class="text-slate-400 mb-6">
+                Você tem certeza que deseja remover <strong id="delete-player-name" class="text-rose-400">Jogador</strong> do clã DonosDoMapa?
+            </p>
+            <input type="hidden" id="delete-id">
+            <div class="flex justify-center gap-3">
+                <button onclick="closeModal('delete-modal')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors flex-1">
+                    Cancelar
+                </button>
+                <button onclick="handleDelete()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors flex-1 font-medium">
+                    Sim, Remover
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Login Admin -->
+    <div id="login-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-sm p-6 shadow-2xl transform scale-95 transition-transform duration-200" id="login-modal-content">
+            <div class="w-16 h-16 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-lock text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2 text-center">Acesso Restrito</h3>
+            <p class="text-slate-400 text-sm mb-6 text-center">Digite a senha para liberar a edição do clã.</p>
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="admin-password" required placeholder="Sua senha..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-amber-500 text-lg tracking-widest">
+                    <p id="login-error" class="text-rose-500 text-sm mt-2 hidden text-center font-medium">Senha incorreta!</p>
+                </div>
+                <div class="flex justify-center gap-3 mt-6">
+                    <button type="button" onclick="closeModal('login-modal')" class="px-4 py-2 text-slate-400 hover:text-white transition-colors flex-1">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-slate-100 hover:bg-white text-slate-900 rounded-lg font-bold transition-colors flex-1">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Configurações visuais de cada classe
+        const CLASS_STYLES = {
+            Lutador: { name: 'Lutador', icon: 'fa-hand-fist', color: 'text-orange-500', bg: 'bg-orange-500/20' },
+            Mecanico: { name: 'Mecânico', icon: 'fa-shield', color: 'text-blue-500', bg: 'bg-blue-500/20' },
+            Arqueira: { name: 'Arqueira', icon: 'fa-crosshairs', color: 'text-green-500', bg: 'bg-green-500/20' },
+            Pike: { name: 'Pike', icon: 'fa-skull', color: 'text-gray-400', bg: 'bg-gray-400/20' },
+            Assassina: { name: 'Assassina', icon: 'fa-khanda', color: 'text-purple-500', bg: 'bg-purple-500/20' },
+            Guerreira: { name: 'Guerreira', icon: 'fa-gavel', color: 'text-rose-500', bg: 'bg-rose-500/20' },
+            Cavaleiro: { name: 'Cavaleiro', icon: 'fa-shield-heart', color: 'text-yellow-500', bg: 'bg-yellow-500/20' },
+            Atalanta: { name: 'Atalanta', icon: 'fa-bow-arrow', color: 'text-teal-500', bg: 'bg-teal-500/20' },
+            Sacerdotisa: { name: 'Sacerdotisa', icon: 'fa-book-bible', color: 'text-pink-500', bg: 'bg-pink-500/20' },
+            Mago: { name: 'Mago', icon: 'fa-wand-magic-sparkles', color: 'text-indigo-500', bg: 'bg-indigo-500/20' },
+            Xama: { name: 'Xamã', icon: 'fa-fire', color: 'text-red-500', bg: 'bg-red-500/20' },
+            Default: { name: 'Desconhecido', icon: 'fa-user', color: 'text-slate-400', bg: 'bg-slate-400/20' }
+        };
+        // A lista inicial solicitada (com os jogadores)
+        const INITIAL_LIST = [
+            { id: '1', name: 'zIronTank', charClass: 'Mecanico', level: 111, currentExp: 0, reqExp: 1000000 },
+            { id: '12', name: 'FIGHTNEWS', charClass: 'Lutador', level: 110, currentExp: 0, reqExp: 1000000 }, // 0%
+            { id: '2', name: 'Berrettini', charClass: 'Assassina', level: 106, currentExp: 10000, reqExp: 1000000 }, // 1%
+            { id: '3', name: 'XxDanxX', charClass: 'Lutador', level: 103, currentExp: 200000, reqExp: 1000000 }, // 20%
+            { id: '4', name: 'EliteGRV', charClass: 'Mecanico', level: 102, currentExp: 100000, reqExp: 1000000 }, // 10%
+            { id: '5', name: 'MJASPER', charClass: 'Cavaleiro', level: 102, currentExp: 50000, reqExp: 1000000 }, // 5%
+            { id: '6', name: 'DrivoFs', charClass: 'Lutador', level: 102, currentExp: 20000, reqExp: 1000000 }, // 2%
+            { id: '7', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000 }, // 2%
+            { id: '8', name: 'Felipeelfo', charClass: 'Lutador', level: 98, currentExp: 300000, reqExp: 1000000 }, // 30%
+            { id: '9', name: 'TatyFurando', charClass: 'Guerreira', level: 96, currentExp: 0, reqExp: 1000000 }, // 0%
+            { id: '10', name: 'Rickmam', charClass: 'Mecanico', level: 86, currentExp: 0, reqExp: 1000000 }, // 0%
+            { id: '11', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000 } // 0%
+        ];
+
+        // --- Sistema de Admin (Movido para cima para carregar antes da tabela) ---
+        let isAdmin = sessionStorage.getItem('donosdomapa_admin') === 'true';
+        const ADMIN_PASSWORD = 'donos2026'; // Altere sua senha aqui!
+
+        // Inicializa ou recupera do LocalStorage
+        let members = [];
+        const savedData = localStorage.getItem('donosdomapa_html_data_v3');
+        if (savedData) {
+            members = JSON.parse(savedData);
+        } else {
+            members = INITIAL_LIST;
+            saveData();
+        }
+
+        function openLoginModal() {
+            document.getElementById('admin-password').value = '';
+            document.getElementById('login-error').classList.add('hidden');
+            openModal('login-modal');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-password').value;
+            if (pass === ADMIN_PASSWORD) {
+                isAdmin = true;
+                sessionStorage.setItem('donosdomapa_admin', 'true');
+                closeModal('login-modal');
+                updateAdminUI();
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            isAdmin = false;
+            sessionStorage.removeItem('donosdomapa_admin');
+            updateAdminUI();
+        }
+
+        function updateAdminUI() {
+            const btnAdd = document.getElementById('btn-add-member');
+            const btnLogin = document.getElementById('btn-admin-login');
+            const btnLogout = document.getElementById('btn-admin-logout');
+            const thAcoes = document.getElementById('th-acoes');
+
+            if (isAdmin) {
+                btnAdd.classList.remove('hidden');
+                btnAdd.classList.add('flex');
+                btnLogin.classList.add('hidden');
+                btnLogin.classList.remove('flex');
+                btnLogout.classList.remove('hidden');
+                btnLogout.classList.add('flex');
+                thAcoes.classList.remove('hidden');
+            } else {
+                btnAdd.classList.add('hidden');
+                btnAdd.classList.remove('flex');
+                btnLogin.classList.remove('hidden');
+                btnLogin.classList.add('flex');
+                btnLogout.classList.add('hidden');
+                btnLogout.classList.remove('flex');
+                thAcoes.classList.add('hidden');
+        }
+        renderTable(); 
+    }
+
+    function saveData() {
+        localStorage.setItem('donosdomapa_html_data_v3', JSON.stringify(members));
+        renderTable();
+    }
+
+    function getSortedMembers() {
+            return [...members].sort((a, b) => {
+                if (b.level !== a.level) return b.level - a.level;
+                const aPercent = a.currentExp / a.reqExp;
+                const bPercent = b.currentExp / b.reqExp;
+                return bPercent - aPercent;
+            });
+        }
+
+        function renderTable() {
+            const sorted = getSortedMembers();
+            const desktopContainer = document.getElementById('desktop-table-body');
+            const mobileContainer = document.getElementById('mobile-list-container');
+            
+            desktopContainer.innerHTML = '';
+            mobileContainer.innerHTML = '';
+
+            if (sorted.length === 0) {
+                const emptyMsg = `<tr><td colspan="5" class="p-8 text-center text-slate-500">Nenhum membro registrado. Adicione-os!</td></tr>`;
+                desktopContainer.innerHTML = emptyMsg;
+                mobileContainer.innerHTML = `<div class="text-center text-slate-500 py-8">Nenhum membro registrado.</div>`;
+                return;
+            }
+
+            sorted.forEach((member, index) => {
+                const style = CLASS_STYLES[member.charClass] || CLASS_STYLES.Default;
+                const percent = ((member.currentExp / member.reqExp) * 100).toFixed(2);
+                
+                // --- Desktop Row ---
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/30 transition-colors group';
+                tr.innerHTML = `
+                    <td class="p-4 text-center font-bold text-slate-500">#${index + 1}</td>
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 rounded-lg ${style.bg} ${style.color}">
+                                <i class="fa-solid ${style.icon} text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-200 text-lg">${member.name}</div>
+                                <div class="text-xs font-medium ${style.color}">${style.name}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-4 text-center">
+                        <div class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-amber-400 font-black border border-slate-700 shadow-inner">
+                            ${member.level}
+                        </div>
+                    </td>
+                    <td class="p-4">
+                        <div class="flex flex-col gap-1.5">
+                            <div class="flex justify-between text-xs font-medium">
+                                <span class="text-cyan-400">${percent}%</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                                <div class="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full relative" style="width: ${percent}%">
+                                    <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-4 text-center ${isAdmin ? '' : 'hidden'}">
+                        <div class="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick="openEditModal('${member.id}')" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded transition-colors" title="Atualizar">
+                                <i class="fa-solid fa-pen text-sm"></i>
+                            </button>
+                            <button onclick="openDeleteModal('${member.id}')" class="p-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 rounded transition-colors" title="Expulsar">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                desktopContainer.appendChild(tr);
+
+                // --- Mobile Card ---
+                const div = document.createElement('div');
+                div.className = 'bg-slate-800/50 rounded-xl p-4 border border-slate-700/50 relative';
+                div.innerHTML = `
+                    <div class="absolute top-4 right-4 text-sm font-black text-slate-600">#${index + 1}</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="p-3 rounded-xl ${style.bg} ${style.color}">
+                            <i class="fa-solid ${style.icon} text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-100 leading-tight">${member.name}</h3>
+                            <span class="text-sm font-medium ${style.color}">${style.name}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-end gap-4 mb-4">
+                        <div class="flex-shrink-0 text-center">
+                            <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1 font-bold">Lvl</div>
+                            <div class="w-12 h-12 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center text-amber-400 font-black text-xl shadow-inner">
+                                ${member.level}
+                            </div>
+                        </div>
+                        <div class="flex-grow pb-1">
+                            <div class="flex justify-between text-xs font-medium mb-1">
+                                <span class="text-cyan-400">${percent}%</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                                <div class="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full" style="width: ${percent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    ${isAdmin ? `
+                    <div class="flex justify-end gap-2 mt-2 pt-3 border-t border-slate-700/50">
+                        <button onclick="openEditModal('${member.id}')" class="flex-1 flex justify-center items-center gap-2 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-200 rounded-lg text-sm font-medium transition-colors">
+                            <i class="fa-solid fa-pen text-xs"></i> Atualizar
+                        </button>
+                        <button onclick="openDeleteModal('${member.id}')" class="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 rounded-lg transition-colors">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    ` : ''}
+                `;
+                mobileContainer.appendChild(div);
+            });
+        }
+
+        // --- Modal Control ---
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            const content = document.getElementById(id + '-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            const content = document.getElementById(id + '-content');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 200);
+        }
+
+        function openAddModal() {
+            document.getElementById('add-form').reset();
+            openModal('add-modal');
+        }
+
+        function openEditModal(id) {
+            const member = members.find(m => m.id === id);
+            if (!member) return;
+            
+            document.getElementById('edit-id').value = member.id;
+            document.getElementById('edit-player-name').innerText = member.name;
+            document.getElementById('edit-level').value = member.level;
+            
+            const percent = ((member.currentExp / member.reqExp) * 100).toFixed(2);
+            document.getElementById('edit-exp').value = percent;
+            
+            openModal('edit-modal');
+        }
+
+        function openDeleteModal(id) {
+            const member = members.find(m => m.id === id);
+            if (!member) return;
+            
+            document.getElementById('delete-id').value = member.id;
+            document.getElementById('delete-player-name').innerText = member.name;
+            openModal('delete-modal');
+        }
+
+        // --- Actions ---
+        function handleAdd(e) {
+            e.preventDefault();
+            const name = document.getElementById('add-name').value;
+            const charClass = document.getElementById('add-class').value;
+            const level = Number(document.getElementById('add-level').value);
+            const expPercent = Number(document.getElementById('add-exp').value);
+            const reqExp = 1000000;
+
+            const newMember = {
+                id: Date.now().toString(),
+                name,
+                charClass,
+                level,
+                currentExp: (expPercent / 100) * reqExp,
+                reqExp
+            };
+
+            members.push(newMember);
+            saveData();
+            closeModal('add-modal');
+        }
+
+        function handleEdit(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const level = Number(document.getElementById('edit-level').value);
+            const expPercent = Number(document.getElementById('edit-exp').value);
+            
+            const memberIndex = members.findIndex(m => m.id === id);
+            if (memberIndex > -1) {
+                members[memberIndex].level = level;
+                members[memberIndex].currentExp = (expPercent / 100) * members[memberIndex].reqExp;
+                saveData();
+            }
+            closeModal('edit-modal');
+        }
+
+        function handleDelete() {
+            const id = document.getElementById('delete-id').value;
+            members = members.filter(m => m.id !== id);
+            saveData();
+            closeModal('delete-modal');
+        }
+
+        // Inicializar a tabela ao carregar a página
+        window.onload = function() {
+            updateAdminUI(); // Isso já chama o renderTable() adequadamente de acordo com o modo
+        };
+    </script>
+</body>
+</html>
