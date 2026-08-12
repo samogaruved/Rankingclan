@@ -248,27 +248,28 @@
             Xama: { name: 'Xamã', icon: 'fa-fire', color: 'text-red-500', bg: 'bg-red-500/20' },
             Default: { name: 'Desconhecido', icon: 'fa-user', color: 'text-slate-400', bg: 'bg-slate-400/20' }
         };
-        // A lista inicial atualizada (v5)
+        // A lista inicial atualizada (v6)
         const INITIAL_LIST = [
-            { id: '1', name: 'zIronTank', charClass: 'Mecanico', level: 112, currentExp: 10000, reqExp: 1000000 }, // 1%
-            { id: '12', name: 'FIGHTNEWS', charClass: 'Lutador', level: 110, currentExp: 0, reqExp: 1000000 },
-            { id: '13', name: 'AkSniper', charClass: 'Arqueira', level: 108, currentExp: 20000, reqExp: 1000000 }, // 2%
-            { id: '14', name: 'ThG', charClass: 'Pike', level: 106, currentExp: 700000, reqExp: 1000000 }, // 70%
-            { id: '2', name: 'Berrettini', charClass: 'Assassina', level: 106, currentExp: 10000, reqExp: 1000000 }, // 1%
-            { id: '16', name: 'GearHunter', charClass: 'Lutador', level: 104, currentExp: 460000, reqExp: 1000000 }, // 46%
-            { id: '3', name: 'XxDanxX', charClass: 'Lutador', level: 104, currentExp: 10000, reqExp: 1000000 }, // 1%
-            { id: '4', name: 'EliteGRV', charClass: 'Mecanico', level: 103, currentExp: 500000, reqExp: 1000000 }, // 50%
-            { id: '5', name: 'MJASPER', charClass: 'Cavaleiro', level: 102, currentExp: 50000, reqExp: 1000000 }, // 5%
-            { id: '6', name: 'DrivoFs', charClass: 'Lutador', level: 102, currentExp: 20000, reqExp: 1000000 }, // 2%
-            { id: '7', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000 }, // 2%
-            { id: '8', name: 'Felipeelfo', charClass: 'Lutador', level: 98, currentExp: 300000, reqExp: 1000000 }, // 30%
-            { id: '9', name: 'TatyFurando', charClass: 'Guerreira', level: 96, currentExp: 0, reqExp: 1000000 }, // 0%
-            { id: '15', name: 'Vascaino420', charClass: 'Lutador', level: 91, currentExp: 0, reqExp: 1000000 }, // 0%
-            { id: '18', name: 'biGmACH', charClass: 'Mecanico', level: 90, currentExp: 30000, reqExp: 1000000 }, // 3%
-            { id: '19', name: 'Detentos', charClass: 'Cavaleiro', level: 89, currentExp: 307100, reqExp: 1000000 }, // 30.71%
-            { id: '17', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000 }, // 20%
-            { id: '10', name: 'Rickmam', charClass: 'Mecanico', level: 86, currentExp: 0, reqExp: 1000000 }, // 0%
-            { id: '11', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000 } // 0%
+            { id: '1', name: 'EliteGRV', charClass: 'Mecanico', level: 102, currentExp: 100000, reqExp: 1000000 },
+            { id: '2', name: 'MJASPER', charClass: 'Cavaleiro', level: 103, currentExp: 50000, reqExp: 1000000 },
+            { id: '3', name: 'DrivoFs', charClass: 'Lutador', level: 102, currentExp: 20000, reqExp: 1000000 },
+            { id: '4', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000 },
+            { id: '5', name: 'Berrettini', charClass: 'Assassina', level: 106, currentExp: 10000, reqExp: 1000000 },
+            { id: '6', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000 },
+            { id: '7', name: 'Rickmam', charClass: 'Mecanico', level: 86, currentExp: 0, reqExp: 1000000 },
+            { id: '8', name: 'TatyFurando', charClass: 'Guerreira', level: 96, currentExp: 0, reqExp: 1000000 },
+            { id: '9', name: 'Felipeelfo', charClass: 'Lutador', level: 109, currentExp: 370000, reqExp: 1000000 },
+            { id: '10', name: 'zIronTank', charClass: 'Mecanico', level: 112, currentExp: 10000, reqExp: 1000000 },
+            { id: '11', name: 'FIGHTNEWS', charClass: 'Lutador', level: 110, currentExp: 0, reqExp: 1000000 },
+            { id: '12', name: 'ThG', charClass: 'Pike', level: 106, currentExp: 700000, reqExp: 1000000 },
+            { id: '13', name: 'AkSniper', charClass: 'Arqueira', level: 108, currentExp: 20000, reqExp: 1000000 },
+            { id: '14', name: 'XxDanxX', charClass: 'Lutador', level: 104, currentExp: 10000, reqExp: 1000000 },
+            { id: '15', name: 'Vascaino420', charClass: 'Lutador', level: 91, currentExp: 0, reqExp: 1000000 },
+            { id: '16', name: 'GearHunter', charClass: 'Lutador', level: 104, currentExp: 460000, reqExp: 1000000 },
+            { id: '17', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000 },
+            { id: '18', name: 'biGmACH', charClass: 'Mecanico', level: 90, currentExp: 930000, reqExp: 1000000 },
+            { id: '19', name: 'Detentos', charClass: 'Cavaleiro', level: 89, currentExp: 307100, reqExp: 1000000 },
+            { id: '20', name: 'AnderMS', charClass: 'Mecanico', level: 100, currentExp: 770000, reqExp: 1000000 }
         ];
 
         // --- Sistema de Admin (Movido para cima para carregar antes da tabela) ---
@@ -277,7 +278,7 @@
 
         // Inicializa ou recupera do LocalStorage
         let members = [];
-        const savedData = localStorage.getItem('donosdomapa_html_data_v5'); // Atualizado para v5
+        const savedData = localStorage.getItem('donosdomapa_html_data_v6'); // Atualizado para v6
         if (savedData) {
             members = JSON.parse(savedData);
         } else {
@@ -337,7 +338,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('donosdomapa_html_data_v5', JSON.stringify(members)); // Atualizado para v5
+            localStorage.setItem('donosdomapa_html_data_v6', JSON.stringify(members)); // Atualizado para v6
             renderTable();
         }
 
