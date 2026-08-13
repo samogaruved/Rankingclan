@@ -67,8 +67,18 @@
             </div>
         </header>
 
-        <!-- Main Content Card -->
-        <main class="bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-hidden">
+        <!-- Navegação de Abas -->
+        <div class="flex justify-center gap-4 mb-8">
+            <button onclick="switchTab('ranking')" id="tab-ranking" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold shadow-lg shadow-amber-900/20 transition-all border border-amber-500/50">
+                <i class="fa-solid fa-trophy mr-2"></i> Ranking
+            </button>
+            <button onclick="switchTab('market')" id="tab-market" class="px-6 py-2.5 rounded-xl bg-slate-900/80 text-slate-400 font-bold hover:bg-slate-800 transition-all border border-slate-700">
+                <i class="fa-solid fa-store mr-2"></i> Marketplace
+            </button>
+        </div>
+
+        <!-- Main Content Card - RANKING -->
+        <main id="view-ranking" class="bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-hidden block">
             
             <!-- Toolbar -->
             <div class="p-6 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/80">
@@ -113,6 +123,28 @@
             <!-- Mobile View -->
             <div id="mobile-list-container" class="md:hidden flex flex-col p-4 gap-4">
                 <!-- O conteúdo será preenchido via JavaScript -->
+            </div>
+        </main>
+
+        <!-- Main Content Card - MARKETPLACE -->
+        <main id="view-market" class="bg-slate-900/60 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-hidden hidden p-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8 border-b border-slate-800 pb-6">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-store text-amber-500 text-2xl"></i>
+                    <h2 class="text-2xl font-bold text-slate-100">Mercado Negro (Marketplace)</h2>
+                </div>
+                <div>
+                    <!-- Botão de Vender aparecerá só para quem tem a senha Admin -->
+                    <button id="btn-add-item" onclick="alert('Sistema de adicionar itens será ativado na próxima atualização!')" class="hidden items-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-all shadow-lg shadow-emerald-900/20">
+                        <i class="fa-solid fa-plus"></i>
+                        Vender Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid de Itens -->
+            <div id="market-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Itens injetados via JS -->
             </div>
         </main>
     </div>
@@ -329,6 +361,79 @@
             saveData();
         }
 
+        // --- Sistema de Marketplace (Demonstração) ---
+        const INITIAL_ITEMS = [
+            { id: 1, name: 'Item de Exemplo 01', type: 'Arma', stats: 'Status de exemplo...', price: '10kk', seller: 'JogadorTeste', rarity: 'text-slate-300' },
+            { id: 2, name: 'Armadura de Exemplo', type: 'Defesa', stats: 'Status de exemplo...', price: '25kk', seller: 'JogadorTeste', rarity: 'text-amber-400' },
+            { id: 3, name: 'Exemplo de Acessório', type: 'Acessório', stats: 'Status de exemplo...', price: '5kk', seller: 'JogadorTeste', rarity: 'text-blue-400' }
+        ];
+
+        function renderMarket() {
+            const grid = document.getElementById('market-grid');
+            grid.innerHTML = '';
+
+            INITIAL_ITEMS.forEach(item => {
+                grid.innerHTML += `
+                    <div class="bg-slate-800/50 rounded-xl border border-slate-700 overflow-hidden hover:border-amber-500/50 transition-colors group flex flex-col">
+                        <div class="h-32 bg-slate-900/80 flex items-center justify-center border-b border-slate-700 relative overflow-hidden">
+                            <i class="fa-solid fa-box-open text-4xl text-slate-600 group-hover:scale-110 group-hover:text-amber-500/50 transition-all"></i>
+                            <div class="absolute top-2 right-2 bg-slate-950 px-2 py-1 rounded text-[10px] font-bold text-slate-400 border border-slate-800">${item.type}</div>
+                        </div>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <h3 class="text-lg font-bold ${item.rarity} mb-1">${item.name}</h3>
+                            <p class="text-xs text-slate-400 mb-4 h-8">${item.stats}</p>
+                            <div class="mt-auto">
+                                <div class="flex justify-between items-end pt-4 border-t border-slate-700 mb-4">
+                                    <div>
+                                        <div class="text-[10px] text-slate-500 uppercase font-bold">Preço</div>
+                                        <div class="text-amber-500 font-black text-lg"><i class="fa-solid fa-coins text-sm mr-1 opacity-70"></i>${item.price}</div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-[10px] text-slate-500 uppercase font-bold">Vendedor</div>
+                                        <div class="text-slate-300 text-sm font-medium"><i class="fa-solid fa-user text-xs mr-1 opacity-70"></i>${item.seller}</div>
+                                    </div>
+                                </div>
+                                <button onclick="alert('Aqui podemos integrar para abrir o WhatsApp do vendedor!')" class="w-full py-2.5 bg-slate-700/50 hover:bg-emerald-600 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i> Negociar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // --- Navegação de Abas ---
+        function switchTab(tabId) {
+            const viewRanking = document.getElementById('view-ranking');
+            const viewMarket = document.getElementById('view-market');
+            const btnRanking = document.getElementById('tab-ranking');
+            const btnMarket = document.getElementById('tab-market');
+
+            // Resetar botões
+            btnRanking.className = 'px-6 py-2.5 rounded-xl bg-slate-900/80 text-slate-400 font-bold hover:bg-slate-800 transition-all border border-slate-700';
+            btnMarket.className = 'px-6 py-2.5 rounded-xl bg-slate-900/80 text-slate-400 font-bold hover:bg-slate-800 transition-all border border-slate-700';
+
+            if (tabId === 'ranking') {
+                viewRanking.classList.remove('hidden');
+                viewRanking.classList.add('block');
+                viewMarket.classList.add('hidden');
+                viewMarket.classList.remove('block');
+                
+                // Ativar Ranking
+                btnRanking.className = 'px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold shadow-lg shadow-amber-900/20 transition-all border border-amber-500/50';
+            } else {
+                viewRanking.classList.add('hidden');
+                viewRanking.classList.remove('block');
+                viewMarket.classList.remove('hidden');
+                viewMarket.classList.add('block');
+                
+                // Ativar Market
+                btnMarket.className = 'px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold shadow-lg shadow-amber-900/20 transition-all border border-amber-500/50';
+                renderMarket();
+            }
+        }
+
         function openLoginModal() {
             document.getElementById('admin-password').value = '';
             document.getElementById('login-error').classList.add('hidden');
@@ -359,10 +464,12 @@
             const btnLogin = document.getElementById('btn-admin-login');
             const btnLogout = document.getElementById('btn-admin-logout');
             const thAcoes = document.getElementById('th-acoes');
+            const btnAddItem = document.getElementById('btn-add-item');
 
             if (isAdmin) {
                 btnAdd.classList.remove('hidden');
                 btnAdd.classList.add('flex');
+                if(btnAddItem) { btnAddItem.classList.remove('hidden'); btnAddItem.classList.add('flex'); }
                 btnLogin.classList.add('hidden');
                 btnLogin.classList.remove('flex');
                 btnLogout.classList.remove('hidden');
@@ -371,6 +478,7 @@
             } else {
                 btnAdd.classList.add('hidden');
                 btnAdd.classList.remove('flex');
+                if(btnAddItem) { btnAddItem.classList.add('hidden'); btnAddItem.classList.remove('flex'); }
                 btnLogin.classList.remove('hidden');
                 btnLogin.classList.add('flex');
                 btnLogout.classList.add('hidden');
