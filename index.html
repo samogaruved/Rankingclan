@@ -251,7 +251,7 @@
 
         // A enorme lista do clã (v8)
         const INITIAL_LIST = [
-            { id: '1', name: 'AnderMS', charClass: 'Mecanico', level: 100, currentExp: 770000, reqExp: 1000000, role: 'Vice-Líder' },
+            { id: '1', name: 'AnderMS', charClass: 'Mecanico', level: 100, currentExp: 770000, reqExp: 1000000, role: 'Membro' },
             { id: '2', name: 'EliteGRV', charClass: 'Mecanico', level: 105, currentExp: 810000, reqExp: 1000000, role: 'Líder' },
             { id: '3', name: 'BigNasAreas', charClass: 'Arqueira', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
             { id: '4', name: 'EternoPK', charClass: 'Pike', level: 98, currentExp: 0, reqExp: 1000000, role: 'Membro' },
@@ -318,9 +318,9 @@
         let isAdmin = sessionStorage.getItem('donosdomapa_admin') === 'true';
         const ADMIN_PASSWORD = 'donos2026'; // Altere sua senha aqui!
 
-        // Inicializa ou recupera do LocalStorage (Atualizado para v10 forçar o carregamento)
+        // Inicializa ou recupera do LocalStorage (Atualizado para v11 forçar o carregamento)
         let members = [];
-        const savedData = localStorage.getItem('donosdomapa_html_data_v10');
+        const savedData = localStorage.getItem('donosdomapa_html_data_v11');
         
         if (savedData) {
             members = JSON.parse(savedData);
@@ -381,7 +381,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('donosdomapa_html_data_v10', JSON.stringify(members));
+            localStorage.setItem('donosdomapa_html_data_v11', JSON.stringify(members));
             renderTable();
         }
 
