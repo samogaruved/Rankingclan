@@ -54,8 +54,8 @@
                 <i class="fa-solid fa-book-journal-whills"></i> Guias
             </button>
 
-            <!-- BOTÃO ADMIN ALINHADO SEM ENCAVALAR -->
-            <button onclick="toggleAdmin()" id="adminBtn" class="w-full sm:w-auto px-5 py-3 sm:py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all bg-slate-900 text-slate-400 hover:text-amber-400 border border-slate-700 hover:border-amber-500/50 shadow-lg">
+            <!-- BOTÃO ADMIN ALINHADO NO MENU -->
+            <button onclick="toggleAdmin()" id="adminBtn" class="w-full sm:w-auto px-5 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all bg-slate-900 text-slate-400 hover:text-amber-400 border border-slate-700 hover:border-amber-500/50 shadow-lg">
                 <i class="fa-solid fa-lock" id="adminIcon"></i>
                 <span id="adminText">Acesso Admin</span>
             </button>
@@ -181,13 +181,30 @@
             </main>
 
             <main id="guide-reader-container" class="hidden p-6 sm:p-10">
-                <div class="flex items-center gap-4 mb-8 border-b border-slate-800 pb-4">
-                    <button onclick="closeGuide()" class="text-slate-400 hover:text-amber-500 transition-colors flex items-center gap-2 px-3 py-2 bg-slate-800/50 hover:bg-slate-800 rounded-lg font-medium">
-                        <i class="fa-solid fa-arrow-left"></i> Voltar
-                    </button>
-                    <h2 id="guide-reader-title" class="text-xl sm:text-3xl font-black text-slate-100 flex-1 text-center pr-8 sm:pr-24">Título do Guia</h2>
+                <div class="flex items-center justify-between mb-8 border-b border-slate-800 pb-4 gap-4 flex-wrap">
+                    <div class="flex items-center gap-4">
+                        <button onclick="closeGuide()" class="text-slate-400 hover:text-amber-500 transition-colors flex items-center gap-2 px-3 py-2 bg-slate-800/50 hover:bg-slate-800 rounded-lg font-medium">
+                            <i class="fa-solid fa-arrow-left"></i> Voltar
+                        </button>
+                        <h2 id="guide-reader-title" class="text-xl sm:text-2xl font-black text-slate-100">Título do Guia</h2>
+                    </div>
+                    <div id="guide-admin-btn-container" class="hidden">
+                        <button onclick="toggleEditGuide()" id="btn-edit-guide" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-sm flex items-center gap-2 shadow-lg">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar Guia
+                        </button>
+                    </div>
                 </div>
+                
                 <div id="guide-reader-content" class="text-slate-300 leading-relaxed space-y-6 pb-6">
+                </div>
+
+                <div id="guide-editor-container" class="hidden space-y-4">
+                    <p class="text-xs text-amber-400 font-semibold uppercase tracking-wider"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Modo de Edição Ativo (HTML Permitido)</p>
+                    <textarea id="guide-textarea" rows="12" class="w-full bg-slate-950 border border-amber-500/50 rounded-xl p-4 text-slate-200 font-mono text-sm focus:outline-none focus:border-amber-400 leading-relaxed"></textarea>
+                    <div class="flex justify-end gap-3">
+                        <button onclick="cancelEditGuide()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl transition-colors">Cancelar</button>
+                        <button onclick="saveGuideEdit()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-colors flex items-center gap-2"><i class="fa-solid fa-floppy-disk"></i> Salvar Alterações</button>
+                    </div>
                 </div>
             </main>
 
@@ -359,7 +376,7 @@
             { id: 3, name: '[Item de Exemplo 03]', type: 'Acessório', stats: 'Adiciona +20 de Força', price: '50kk', seller: 'OutroExemplo', rarity: 'text-amber-400' }
         ];
 
-        const GUIDES_DATA = {
+        let defaultGuides = {
             up: {
                 title: "Guia de UP (Level 1 ao 110)",
                 content: `
@@ -435,8 +452,18 @@
         const ADMIN_PASSWORD = 'donos';
         let members = [];
         let memberToDelete = null;
+        let currentGuideKey = null;
+        let guidesData = {};
 
-        const savedData = localStorage.getItem('donosdomapa_html_data_v18');
+        const savedGuides = localStorage.getItem('donosdomapa_guides_v1');
+        if (savedGuides) {
+            guidesData = JSON.parse(savedGuides);
+        } else {
+            guidesData = defaultGuides;
+            localStorage.setItem('donosdomapa_guides_v1', JSON.stringify(guidesData));
+        }
+
+        const savedData = localStorage.getItem('donosdomapa_html_data_v20');
         if (savedData) {
             members = JSON.parse(savedData);
         } else {
@@ -445,8 +472,12 @@
         }
 
         function saveData() {
-            localStorage.setItem('donosdomapa_html_data_v18', JSON.stringify(members));
+            localStorage.setItem('donosdomapa_html_data_v20', JSON.stringify(members));
             renderTable();
+        }
+
+        function saveGuidesData() {
+            localStorage.setItem('donosdomapa_guides_v1', JSON.stringify(guidesData));
         }
 
         function getSortedMembers() {
@@ -523,9 +554,9 @@
                 const percent = ((member.currentExp / member.reqExp) * 100).toFixed(2);
             
             let roleTag = '';
-            if (member.role === 'Líder') {
+            if (member.role === 'Líder' || member.name === 'EliteGRV') {
                 roleTag = '<span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-black bg-amber-500/20 text-amber-400 border border-amber-500/40 uppercase tracking-wider shadow-[0_0_12px_rgba(245,158,11,0.25)]"><i class="fa-solid fa-crown mr-1.5"></i>LÍDER</span>';
-            } else if (member.role === 'Vice-Líder') {
+            } else if (member.role === 'Vice-Líder' || member.name === 'zIronTank') {
                 roleTag = '<span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-black bg-slate-400/20 text-slate-300 border border-slate-400/40 uppercase tracking-wider shadow-[0_0_12px_rgba(148,163,184,0.15)]"><i class="fa-solid fa-star mr-1.5"></i>VICE-LÍDER</span>';
             }
 
@@ -667,7 +698,8 @@
         }
 
         function openGuide(guideId) {
-            const guide = GUIDES_DATA[guideId];
+            currentGuideKey = guideId;
+            const guide = guidesData[guideId];
             if(!guide) return;
             
             document.getElementById('main-nav').classList.add('hidden');
@@ -676,12 +708,54 @@
             document.getElementById('guide-reader-container').classList.remove('hidden');
             document.getElementById('guide-reader-title').innerText = guide.title;
             document.getElementById('guide-reader-content').innerHTML = guide.content;
+            document.getElementById('guide-reader-content').classList.remove('hidden');
+            document.getElementById('guide-editor-container').classList.add('hidden');
+
+            updateGuideAdminButton();
         }
 
         function closeGuide() {
+            currentGuideKey = null;
             document.getElementById('guide-reader-container').classList.add('hidden');
             document.getElementById('main-nav').classList.remove('hidden');
             document.getElementById('guides-content').classList.remove('hidden');
+        }
+
+        function updateGuideAdminButton() {
+            const container = document.getElementById('guide-admin-btn-container');
+            if (isAdmin) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function toggleEditGuide() {
+            const guide = guidesData[currentGuideKey];
+            if(!guide) return;
+
+            document.getElementById('guide-reader-content').classList.add('hidden');
+            document.getElementById('guide-editor-container').classList.remove('hidden');
+            document.getElementById('guide-textarea').value = guide.content;
+            document.getElementById('btn-edit-guide').classList.add('hidden');
+        }
+
+        function cancelEditGuide() {
+            document.getElementById('guide-editor-container').classList.add('hidden');
+            document.getElementById('guide-reader-content').classList.remove('hidden');
+            document.getElementById('btn-edit-guide').classList.remove('hidden');
+        }
+
+        function saveGuideEdit() {
+            if(!currentGuideKey) return;
+            const newContent = document.getElementById('guide-textarea').value;
+            guidesData[currentGuideKey].content = newContent;
+            saveGuidesData();
+
+            document.getElementById('guide-reader-content').innerHTML = newContent;
+            document.getElementById('guide-editor-container').classList.add('hidden');
+            document.getElementById('guide-reader-content').classList.remove('hidden');
+            document.getElementById('btn-edit-guide').classList.remove('hidden');
         }
 
         function toggleAdmin() {
@@ -689,6 +763,7 @@
                 isAdmin = false;
                 sessionStorage.setItem('donosdomapa_admin', 'false');
                 updateAdminUI();
+                updateGuideAdminButton();
             } else {
                 document.getElementById('modalOverlay').classList.remove('hidden');
                 document.getElementById('adminModal').classList.remove('hidden');
@@ -703,6 +778,7 @@
                 sessionStorage.setItem('donosdomapa_admin', 'true');
                 closeModal();
                 updateAdminUI();
+                updateGuideAdminButton();
             } else {
                 document.getElementById('adminError').classList.remove('hidden');
             }
@@ -727,6 +803,7 @@
                 controls.classList.remove('flex');
                 adminCols.forEach(col => col.classList.add('hidden'));
             }
+            updateGuideAdminButton();
         }
 
         function closeModal() {
