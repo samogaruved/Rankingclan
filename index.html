@@ -69,11 +69,39 @@
                         <i class="fa-solid fa-medal text-amber-500 text-2xl"></i>
                         <h2 class="text-xl sm:text-2xl font-bold text-slate-100">Ranking de Batalha</h2>
                     </div>
-                    <div id="adminControls" class="hidden flex-wrap justify-center gap-3 w-full sm:w-auto">
-                        <button onclick="openAddModal()" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-all shadow-lg shadow-emerald-900/20">
-                            <i class="fa-solid fa-plus"></i> Novo Membro
-                        </button>
+                    
+                    <div class="flex items-center gap-3 w-full sm:w-auto flex-wrap justify-center">
+                        <!-- FILTRO POR CLASSE -->
+                        <div class="relative">
+                            <select id="classFilter" onchange="renderTable()" class="appearance-none bg-slate-950 border border-slate-700 text-slate-300 font-medium rounded-lg pl-4 pr-10 py-2 outline-none focus:border-amber-500 transition-colors shadow-lg shadow-black/20 cursor-pointer">
+                                <option value="All">🏆 Todas as Classes</option>
+                                <option value="Lutador">Lutador</option>
+                                <option value="Mecanico">Mecânico</option>
+                                <option value="Arqueira">Arqueira</option>
+                                <option value="Pike">Pike</option>
+                                <option value="Assassina">Assassina</option>
+                                <option value="Guerreira">Guerreira</option>
+                                <option value="Cavaleiro">Cavaleiro</option>
+                                <option value="Atalanta">Atalanta</option>
+                                <option value="Sacerdotisa">Sacerdotisa</option>
+                                <option value="Mago">Mago</option>
+                                <option value="Xama">Xamã</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div id="adminControls" class="hidden flex-wrap justify-center gap-3">
+                            <button onclick="openAddModal()" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-all shadow-lg shadow-emerald-900/20">
+                                <i class="fa-solid fa-plus"></i> Novo Membro
+                            </button>
+                        </div>
                     </div>
+                </div>
+
+                <!-- PODIUM TOP 3 -->
+                <div id="top3-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-slate-900/40 border-b border-slate-800/50">
                 </div>
 
                 <div class="hidden md:block overflow-x-auto">
@@ -385,12 +413,66 @@
         }
 
         function renderTable() {
+            const filterClass = document.getElementById('classFilter') ? document.getElementById('classFilter').value : 'All';
             const tbody = document.getElementById('memberList');
             const mobileList = document.getElementById('memberListMobile');
+            const top3Container = document.getElementById('top3-container');
+            
             tbody.innerHTML = '';
             mobileList.innerHTML = '';
+            if(top3Container) top3Container.innerHTML = '';
             
-            const sorted = getSortedMembers();
+            let sorted = getSortedMembers();
+            
+            if (filterClass !== 'All') {
+                sorted = sorted.filter(m => m.charClass === filterClass);
+            }
+
+            if (top3Container) {
+                const top3 = sorted.slice(0, 3);
+                if (top3.length > 0) {
+                    top3Container.classList.remove('hidden');
+                    top3.forEach((member, index) => {
+                        const style = CLASS_STYLES[member.charClass] || CLASS_STYLES.Default;
+                        
+                        let podiumClass = "";
+                        let iconHtml = "";
+                        let orderClass = "";
+                        let rankText = "";
+                        
+                        if (index === 0) {
+                            podiumClass = "bg-gradient-to-t from-yellow-500/20 to-yellow-500/5 border-yellow-500/50 shadow-[0_0_30px_rgba(234,179,8,0.15)] transform md:-translate-y-2";
+                            iconHtml = "<i class='fa-solid fa-trophy text-5xl text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]'></i>";
+                            orderClass = "md:order-2 z-10";
+                            rankText = "1º LUGAR";
+                        } else if (index === 1) {
+                            podiumClass = "bg-gradient-to-t from-slate-300/20 to-slate-300/5 border-slate-300/50 shadow-[0_0_20px_rgba(203,213,225,0.1)]";
+                            iconHtml = "<i class='fa-solid fa-medal text-4xl text-slate-300 drop-shadow-[0_0_10px_rgba(203,213,225,0.5)]'></i>";
+                            orderClass = "md:order-1 mt-0 md:mt-6";
+                            rankText = "2º LUGAR";
+                        } else if (index === 2) {
+                            podiumClass = "bg-gradient-to-t from-amber-700/30 to-amber-700/5 border-amber-700/50 shadow-[0_0_20px_rgba(180,83,9,0.1)]";
+                            iconHtml = "<i class='fa-solid fa-medal text-4xl text-amber-600 drop-shadow-[0_0_10px_rgba(180,83,9,0.5)]'></i>";
+                            orderClass = "md:order-3 mt-0 md:mt-6";
+                            rankText = "3º LUGAR";
+                        }
+
+                        const html = `
+                            <div class="${orderClass} flex flex-col items-center p-6 rounded-2xl border ${podiumClass} relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="mb-4">${iconHtml}</div>
+                                <h3 class="font-black text-2xl text-slate-100 mb-1 tracking-tight text-center break-words">${member.name}</h3>
+                                <div class="text-sm font-bold ${style.color} mb-4 flex items-center gap-1.5"><i class="fa-solid ${style.icon}"></i> ${style.name}</div>
+                                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 border border-slate-700 text-amber-400 font-black text-2xl shadow-inner mb-2">${member.level}</div>
+                                <div class="text-[10px] font-black text-slate-400/80 uppercase tracking-widest">${rankText}</div>
+                            </div>
+                        `;
+                        top3Container.innerHTML += html;
+                    });
+                } else {
+                    top3Container.classList.add('hidden');
+                }
+            }
 
             sorted.forEach((member, index) => {
                 const style = CLASS_STYLES[member.charClass] || CLASS_STYLES.Default;
