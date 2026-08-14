@@ -24,7 +24,7 @@
     <div class="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black opacity-80"></div>
     <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-amber-600/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
-    <!-- OTIMIZAÇÃO DE ESPAÇO: Largura máxima aumentada de max-w-6xl para max-w-[1400px] -->
+    <!-- OTIMIZAÇÃO WIDESCREEN: max-w aumentado para aproveitar monitores grandes -->
     <div class="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         <header class="text-center mb-10 flex flex-col items-center">
@@ -43,7 +43,6 @@
             </div>
         </header>
 
-        <!-- NAVEGAÇÃO ATUALIZADA: Layout ajustado para acomodar o botão Admin -->
         <nav id="main-nav" class="flex flex-wrap justify-center items-center gap-3 mb-6 relative w-full">
             <button onclick="switchTab('ranking')" id="btn-tab-ranking" class="tab-btn active w-full sm:w-auto px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all bg-amber-600 text-white shadow-lg shadow-amber-900/20">
                 <i class="fa-solid fa-trophy"></i> Ranking
@@ -55,8 +54,8 @@
                 <i class="fa-solid fa-book-journal-whills"></i> Guias
             </button>
 
-            <!-- NOVO LOCAL DO BOTÃO ADMIN -->
-            <button onclick="toggleAdmin()" id="adminBtn" class="w-full sm:w-auto lg:absolute lg:right-0 px-5 py-3 lg:py-2.5 rounded-xl lg:rounded-lg font-bold flex items-center justify-center gap-2 transition-all bg-slate-900 text-slate-400 hover:text-amber-400 border border-slate-700 hover:border-amber-500/50 shadow-lg">
+            <!-- BOTÃO ADMIN ALINHADO SEM ENCAVALAR -->
+            <button onclick="toggleAdmin()" id="adminBtn" class="w-full sm:w-auto px-5 py-3 sm:py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all bg-slate-900 text-slate-400 hover:text-amber-400 border border-slate-700 hover:border-amber-500/50 shadow-lg">
                 <i class="fa-solid fa-lock" id="adminIcon"></i>
                 <span id="adminText">Acesso Admin</span>
             </button>
@@ -101,7 +100,7 @@
                     </div>
                 </div>
 
-                <!-- PODIUM TOP 3 -->
+                <!-- PÓDIO TOP 3 -->
                 <div id="top3-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-slate-900/40 border-b border-slate-800/50">
                 </div>
 
@@ -148,7 +147,7 @@
                 </div>
                 <div class="p-6">
                     <p class="text-slate-400 text-center mb-8">Conhecimento é poder. Acesse os guias criados pelos veteranos do clã.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div onclick="openGuide('up')" class="bg-slate-800/40 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/50 rounded-xl p-6 cursor-pointer transition-all group text-center">
                             <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                                 <i class="fa-solid fa-arrow-trend-up text-2xl"></i>
@@ -169,6 +168,13 @@
                             </div>
                             <h3 class="text-lg font-bold text-slate-200 mb-2">Horários de Boss</h3>
                             <p class="text-sm text-slate-400">Mokova, Valento, Kelvezu e dicas de sobrevivência.</p>
+                        </div>
+                        <div onclick="openGuide('evento_omu')" class="bg-slate-800/40 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/50 rounded-xl p-6 cursor-pointer transition-all group text-center">
+                            <div class="w-16 h-16 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-fire text-2xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-200 mb-2">Evento Cabeção</h3>
+                            <p class="text-sm text-slate-400">Gabarito completo da quest do Omu-Sama.</p>
                         </div>
                     </div>
                 </div>
@@ -278,39 +284,39 @@
 
         const INITIAL_LIST = [
             { id: '1', name: 'EliteGRV', charClass: 'Mecanico', level: 106, currentExp: 820000, reqExp: 1000000, role: 'Líder' },
-            { id: '2', name: 'AnderMS', charClass: 'Mecanico', level: 104, currentExp: 580000, reqExp: 1000000, role: 'Membro' },
-            { id: '3', name: 'BigNasAreas', charClass: 'Arqueira', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '4', name: 'EternoPK', charClass: 'Pike', level: 104, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '5', name: 'DetentosAS', charClass: 'Arqueira', level: 91, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '6', name: 'Bestialys', charClass: 'Cavaleiro', level: 95, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '7', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
-            { id: '8', name: 'RickLanches', charClass: 'Mecanico', level: 107, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '9', name: '[KS]Valento', charClass: 'Cavaleiro', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '10', name: 'TatyFURANDO', charClass: 'Guerreira', level: 99, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
-            { id: '11', name: 'Darkput0', charClass: 'Xama', level: 92, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '12', name: 'Ceifadoor', charClass: 'Pike', level: 85, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '13', name: 'C4duKA', charClass: 'Arqueira', level: 10, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '14', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
-            { id: '15', name: 'psREXPEITA', charClass: 'Pike', level: 93, currentExp: 680000, reqExp: 1000000, role: 'Membro' },
-            { id: '16', name: 'XxlPuRoxOssOlxX', charClass: 'Mago', level: 100, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '17', name: 'PauloMinozzo', charClass: 'Cavaleiro', level: 81, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '18', name: 'KharsekPK', charClass: 'Pike', level: 79, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '19', name: 'SuPerShot', charClass: 'Arqueira', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '20', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '21', name: 'SangueAzul', charClass: 'Pike', level: 97, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '22', name: '[MG]Fire', charClass: 'Mago', level: 93, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '23', name: 'ORIZ', charClass: 'Atalanta', level: 77, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '24', name: 'DanteAlighierii', charClass: 'Mecanico', level: 107, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '25', name: 'GearHunter', charClass: 'Lutador', level: 109, currentExp: 700000, reqExp: 1000000, role: 'Membro' },
-            { id: '26', name: 'DrivoFs', charClass: 'Lutador', level: 106, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
-            { id: '27', name: 'Oso', charClass: 'Mago', level: 83, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '28', name: 'BRANDAOO', charClass: 'Lutador', level: 93, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '29', name: 'X5Tudo', charClass: 'Mecanico', level: 50, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '30', name: 'Berrettini', charClass: 'Assassina', level: 110, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
-            { id: '31', name: 'Zeero', charClass: 'Lutador', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '32', name: 'Legalizee', charClass: 'Cavaleiro', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '33', name: 'T801', charClass: 'Cavaleiro', level: 38, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '34', name: 'zIronTank', charClass: 'Mecanico', level: 113, currentExp: 240000, reqExp: 1000000, role: 'Vice-Líder' },
+            { id: '2', name: 'zIronTank', charClass: 'Mecanico', level: 113, currentExp: 240000, reqExp: 1000000, role: 'Vice-Líder' },
+            { id: '3', name: 'AnderMS', charClass: 'Mecanico', level: 104, currentExp: 580000, reqExp: 1000000, role: 'Membro' },
+            { id: '4', name: 'BigNasAreas', charClass: 'Arqueira', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '5', name: 'EternoPK', charClass: 'Pike', level: 104, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '6', name: 'DetentosAS', charClass: 'Arqueira', level: 91, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '7', name: 'Bestialys', charClass: 'Cavaleiro', level: 95, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '8', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
+            { id: '9', name: 'RickLanches', charClass: 'Mecanico', level: 107, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '10', name: '[KS]Valento', charClass: 'Cavaleiro', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '11', name: 'TatyFURANDO', charClass: 'Guerreira', level: 99, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
+            { id: '12', name: 'Darkput0', charClass: 'Xama', level: 92, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '13', name: 'Ceifadoor', charClass: 'Pike', level: 85, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '14', name: 'C4duKA', charClass: 'Arqueira', level: 10, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '15', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
+            { id: '16', name: 'psREXPEITA', charClass: 'Pike', level: 93, currentExp: 680000, reqExp: 1000000, role: 'Membro' },
+            { id: '17', name: 'XxlPuRoxOssOlxX', charClass: 'Mago', level: 100, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '18', name: 'PauloMinozzo', charClass: 'Cavaleiro', level: 81, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '19', name: 'KharsekPK', charClass: 'Pike', level: 79, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '20', name: 'SuPerShot', charClass: 'Arqueira', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '21', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '22', name: 'SangueAzul', charClass: 'Pike', level: 97, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '23', name: '[MG]Fire', charClass: 'Mago', level: 93, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '24', name: 'ORIZ', charClass: 'Atalanta', level: 77, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '25', name: 'DanteAlighierii', charClass: 'Mecanico', level: 107, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '26', name: 'GearHunter', charClass: 'Lutador', level: 109, currentExp: 700000, reqExp: 1000000, role: 'Membro' },
+            { id: '27', name: 'DrivoFs', charClass: 'Lutador', level: 106, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
+            { id: '28', name: 'Oso', charClass: 'Mago', level: 83, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '29', name: 'BRANDAOO', charClass: 'Lutador', level: 93, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '30', name: 'X5Tudo', charClass: 'Mecanico', level: 50, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '31', name: 'Berrettini', charClass: 'Assassina', level: 110, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
+            { id: '32', name: 'Zeero', charClass: 'Lutador', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '33', name: 'Legalizee', charClass: 'Cavaleiro', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '34', name: 'T801', charClass: 'Cavaleiro', level: 38, currentExp: 0, reqExp: 1000000, role: 'Membro' },
             { id: '35', name: 'Dumoont', charClass: 'Pike', level: 78, currentExp: 0, reqExp: 1000000, role: 'Membro' },
             { id: '36', name: 'Redlove', charClass: 'Pike', level: 102, currentExp: 0, reqExp: 1000000, role: 'Membro' },
             { id: '37', name: '0kazi', charClass: 'Arqueira', level: 94, currentExp: 0, reqExp: 1000000, role: 'Membro' },
@@ -384,6 +390,44 @@
                         <p><span class="text-rose-500 font-bold">Mokova:</span> Santuário Sombrio. Dropa itens do 80+.</p>
                     </div>
                 `
+            },
+            evento_omu: {
+                title: "🔥 Desvende o Mistério (Omu-Sama)",
+                content: `
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 space-y-6">
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <div class="flex-1 bg-slate-900/80 p-4 rounded-xl border border-slate-700/50">
+                                <h4 class="text-sm text-slate-400 uppercase font-bold tracking-wider mb-1">Localização</h4>
+                                <p class="text-lg text-slate-200"><strong class="text-amber-500"><i class="fa-solid fa-map-location-dot mr-1"></i> Local:</strong> Jardim Rosemary — Quadrante D7</p>
+                            </div>
+                            <div class="flex-1 bg-slate-900/80 p-4 rounded-xl border border-slate-700/50">
+                                <h4 class="text-sm text-slate-400 uppercase font-bold tracking-wider mb-1">Recompensa</h4>
+                                <p class="text-lg text-slate-200"><strong class="text-emerald-400"><i class="fa-solid fa-gift mr-1"></i> Ganha:</strong> Poção do Cabeção</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-slate-900 rounded-xl p-6 border border-slate-700 shadow-inner">
+                            <h3 class="text-xl font-bold text-emerald-400 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-check-circle"></i> Gabarito (Digite exatamente assim):
+                            </h3>
+                            <ul class="space-y-3 text-slate-200 font-medium text-lg">
+                                <li class="flex items-center gap-3"><span class="bg-slate-800 text-slate-400 px-3 py-1 rounded-md text-sm font-bold">Resposta 1</span> Jardim Rosemary</li>
+                                <li class="flex items-center gap-3"><span class="bg-slate-800 text-slate-400 px-3 py-1 rounded-md text-sm font-bold">Resposta 2</span> Ambulante</li>
+                                <li class="flex items-center gap-3"><span class="bg-slate-800 text-slate-400 px-3 py-1 rounded-md text-sm font-bold">Resposta 3</span> Ricarten</li>
+                                <li class="flex items-center gap-3"><span class="bg-slate-800 text-slate-400 px-3 py-1 rounded-md text-sm font-bold">Resposta 4</span> Kit Sofisticado Real</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-6 flex items-start gap-4 bg-amber-500/10 border border-amber-500/20 p-5 rounded-xl">
+                            <div class="bg-amber-500/20 p-2 rounded-lg text-amber-500">
+                                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                            </div>
+                            <p class="text-amber-200 text-sm leading-relaxed mt-0.5">
+                                <strong class="font-bold text-amber-500 uppercase tracking-wider">Aviso:</strong> As recompensas vão direto para o <strong>Distribuidor de Itens</strong>, então não precisa se preocupar em ter espaço livre no inventário!
+                            </p>
+                        </div>
+                    </div>
+                `
             }
         };
 
@@ -392,8 +436,7 @@
         let members = [];
         let memberToDelete = null;
 
-        // Force a nova versão (v17) para resetar o cache do navegador de todos
-        const savedData = localStorage.getItem('donosdomapa_html_data_v17');
+        const savedData = localStorage.getItem('donosdomapa_html_data_v18');
         if (savedData) {
             members = JSON.parse(savedData);
         } else {
@@ -402,7 +445,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('donosdomapa_html_data_v17', JSON.stringify(members));
+            localStorage.setItem('donosdomapa_html_data_v18', JSON.stringify(members));
             renderTable();
         }
 
@@ -481,12 +524,11 @@
             
             let roleTag = '';
             if (member.role === 'Líder') {
-                roleTag = '<span class="ml-2 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black bg-amber-500/20 text-amber-500 border border-amber-500/30 uppercase tracking-wider shadow-[0_0_10px_rgba(245,158,11,0.2)]"><i class="fa-solid fa-crown mr-1"></i>Líder</span>';
+                roleTag = '<span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-black bg-amber-500/20 text-amber-400 border border-amber-500/40 uppercase tracking-wider shadow-[0_0_12px_rgba(245,158,11,0.25)]"><i class="fa-solid fa-crown mr-1.5"></i>LÍDER</span>';
             } else if (member.role === 'Vice-Líder') {
-                roleTag = '<span class="ml-2 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-black bg-slate-400/20 text-slate-200 border border-slate-400/30 uppercase tracking-wider shadow-[0_0_10px_rgba(148,163,184,0.1)]"><i class="fa-solid fa-star mr-1"></i>Vice-Líder</span>';
+                roleTag = '<span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-black bg-slate-400/20 text-slate-300 border border-slate-400/40 uppercase tracking-wider shadow-[0_0_12px_rgba(148,163,184,0.15)]"><i class="fa-solid fa-star mr-1.5"></i>VICE-LÍDER</span>';
             }
 
-            // Desktop Row
             const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-800/30 transition-colors group';
                 tr.innerHTML = `
@@ -495,7 +537,7 @@
                         <div class="flex items-center gap-3">
                             <div class="p-2 rounded-lg ${style.bg} ${style.color}"><i class="fa-solid ${style.icon}"></i></div>
                             <div>
-                                <div class="font-bold text-slate-200 text-lg">${member.name} ${roleTag}</div>
+                                <div class="font-bold text-slate-200 text-lg flex items-center flex-wrap">${member.name} ${roleTag}</div>
                                 <div class="text-xs font-medium ${style.color}">${style.name}</div>
                             </div>
                         </div>
@@ -525,7 +567,6 @@
                 `;
                 tbody.appendChild(tr);
 
-                // Mobile Card
                 const div = document.createElement('div');
                 div.className = 'bg-slate-800/50 rounded-xl p-4 border border-slate-700/50 relative';
                 div.innerHTML = `
@@ -533,7 +574,7 @@
                     <div class="flex items-center gap-4 mb-4">
                         <div class="p-3 rounded-xl ${style.bg} ${style.color}"><i class="fa-solid ${style.icon} text-xl"></i></div>
                         <div>
-                            <h3 class="font-bold text-lg text-slate-100 leading-tight">${member.name} ${roleTag}</h3>
+                            <h3 class="font-bold text-lg text-slate-100 leading-tight flex items-center flex-wrap gap-1">${member.name} ${roleTag}</h3>
                             <span class="text-sm font-medium ${style.color}">${style.name}</span>
                         </div>
                     </div>
@@ -760,7 +801,6 @@
             closeModal();
         }
 
-        // Initialize App
         renderTable();
     </script>
 </body>
