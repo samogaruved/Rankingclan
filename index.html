@@ -24,7 +24,6 @@
     <div class="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black opacity-80"></div>
     <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-amber-600/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
-    <!-- OTIMIZAÇÃO WIDESCREEN: max-w aumentado para aproveitar monitores grandes -->
     <div class="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         <header class="text-center mb-10 flex flex-col items-center">
@@ -54,7 +53,6 @@
                 <i class="fa-solid fa-book-journal-whills"></i> Guias
             </button>
 
-            <!-- BOTÃO ADMIN ALINHADO NO MENU -->
             <button onclick="toggleAdmin()" id="adminBtn" class="w-full sm:w-auto px-5 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all bg-slate-900 text-slate-400 hover:text-amber-400 border border-slate-700 hover:border-amber-500/50 shadow-lg">
                 <i class="fa-solid fa-lock" id="adminIcon"></i>
                 <span id="adminText">Acesso Admin</span>
@@ -71,7 +69,6 @@
                     </div>
                     
                     <div class="flex items-center gap-3 w-full md:w-auto flex-wrap justify-center">
-                        <!-- FILTRO POR CLASSE -->
                         <div class="relative w-full sm:w-auto">
                             <select id="classFilter" onchange="renderTable()" class="w-full appearance-none bg-slate-950 border border-slate-700 text-slate-300 font-medium rounded-lg pl-4 pr-10 py-2.5 outline-none focus:border-amber-500 transition-colors shadow-lg shadow-black/20 cursor-pointer">
                                 <option value="All">🏆 Todas as Classes</option>
@@ -100,7 +97,6 @@
                     </div>
                 </div>
 
-                <!-- PÓDIO TOP 3 -->
                 <div id="top3-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-slate-900/40 border-b border-slate-800/50">
                 </div>
 
@@ -291,7 +287,7 @@
             Pike: { name: 'Pike', icon: 'fa-skull', color: 'text-gray-400', bg: 'bg-gray-400/20' },
             Assassina: { name: 'Assassina', icon: 'fa-khanda', color: 'text-purple-500', bg: 'bg-purple-500/20' },
             Guerreira: { name: 'Guerreira', icon: 'fa-gavel', color: 'text-rose-500', bg: 'bg-rose-500/20' },
-            Cavaleiro: { name: 'Cavaleiro', icon: 'fa-shield-heart', color: 'text-yellow-500', bg: 'bg-yellow-500/20' },
+            Cavaleiro: { name: 'Cavaleiro', icon: 'fa-shield-heart', color: 'text-yellow-500', bg: 'text-yellow-500/20' },
             Atalanta: { name: 'Atalanta', icon: 'fa-bow-arrow', color: 'text-teal-500', bg: 'bg-teal-500/20' },
             Sacerdotisa: { name: 'Sacerdotisa', icon: 'fa-book-bible', color: 'text-pink-500', bg: 'bg-pink-500/20' },
             Mago: { name: 'Mago', icon: 'fa-wand-magic-sparkles', color: 'text-indigo-500', bg: 'bg-indigo-500/20' },
@@ -301,73 +297,31 @@
 
         const INITIAL_LIST = [
             { id: '1', name: 'EliteGRV', charClass: 'Mecanico', level: 106, currentExp: 820000, reqExp: 1000000, role: 'Líder' },
-            { id: '2', name: 'zIronTank', charClass: 'Mecanico', level: 113, currentExp: 240000, reqExp: 1000000, role: 'Vice-Líder' },
-            { id: '3', name: 'AnderMS', charClass: 'Mecanico', level: 104, currentExp: 580000, reqExp: 1000000, role: 'Membro' },
-            { id: '4', name: 'BigNasAreas', charClass: 'Arqueira', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '5', name: 'EternoPK', charClass: 'Pike', level: 104, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '6', name: 'DetentosAS', charClass: 'Arqueira', level: 91, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '7', name: 'Bestialys', charClass: 'Cavaleiro', level: 95, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '8', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
-            { id: '9', name: 'RickLanches', charClass: 'Mecanico', level: 107, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '10', name: '[KS]Valento', charClass: 'Cavaleiro', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '11', name: 'TatyFURANDO', charClass: 'Guerreira', level: 99, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
-            { id: '12', name: 'Darkput0', charClass: 'Xama', level: 92, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '13', name: 'Ceifadoor', charClass: 'Pike', level: 85, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '14', name: 'C4duKA', charClass: 'Arqueira', level: 10, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '15', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
-            { id: '16', name: 'psREXPEITA', charClass: 'Pike', level: 93, currentExp: 680000, reqExp: 1000000, role: 'Membro' },
-            { id: '17', name: 'XxlPuRoxOssOlxX', charClass: 'Mago', level: 100, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '18', name: 'PauloMinozzo', charClass: 'Cavaleiro', level: 81, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '19', name: 'KharsekPK', charClass: 'Pike', level: 79, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '20', name: 'SuPerShot', charClass: 'Arqueira', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '21', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '22', name: 'SangueAzul', charClass: 'Pike', level: 97, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '23', name: '[MG]Fire', charClass: 'Mago', level: 93, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '24', name: 'ORIZ', charClass: 'Atalanta', level: 77, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '25', name: 'DanteAlighierii', charClass: 'Mecanico', level: 107, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '26', name: 'GearHunter', charClass: 'Lutador', level: 109, currentExp: 700000, reqExp: 1000000, role: 'Membro' },
-            { id: '27', name: 'DrivoFs', charClass: 'Lutador', level: 106, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
-            { id: '28', name: 'Oso', charClass: 'Mago', level: 83, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '29', name: 'BRANDAOO', charClass: 'Lutador', level: 93, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '30', name: 'X5Tudo', charClass: 'Mecanico', level: 50, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '31', name: 'Berrettini', charClass: 'Assassina', level: 110, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
-            { id: '32', name: 'Zeero', charClass: 'Lutador', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '33', name: 'Legalizee', charClass: 'Cavaleiro', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '34', name: 'T801', charClass: 'Cavaleiro', level: 38, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '35', name: 'Dumoont', charClass: 'Pike', level: 78, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '36', name: 'Redlove', charClass: 'Pike', level: 102, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '37', name: '0kazi', charClass: 'Arqueira', level: 94, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '38', name: 'loloblips', charClass: 'Arqueira', level: 96, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '39', name: 'LordLuffy', charClass: 'Cavaleiro', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '40', name: 'Haadez', charClass: 'Lutador', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '41', name: 'TIsuRO', charClass: 'Pike', level: 100, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '42', name: 'AthosWeeD', charClass: 'Lutador', level: 74, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '43', name: 'Hagrid', charClass: 'Mago', level: 98, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '44', name: 'SoulsHunt', charClass: 'Xama', level: 90, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '45', name: 'PredaTor01', charClass: 'Arqueira', level: 63, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '46', name: 'TheProdigy', charClass: 'Arqueira', level: 103, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '47', name: 'AdrogadagordA', charClass: 'Mecanico', level: 10, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '48', name: 'AndradeXM', charClass: 'Xama', level: 8, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '49', name: 'Felipeelfo', charClass: 'Lutador', level: 113, currentExp: 460000, reqExp: 1000000, role: 'Membro' },
-            { id: '50', name: 'FIGHTNEWS', charClass: 'Lutador', level: 112, currentExp: 30000, reqExp: 1000000, role: 'Membro' },
-            { id: '51', name: 'KINAjack', charClass: 'Cavaleiro', level: 79, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '52', name: 'biGmACH', charClass: 'Mecanico', level: 94, currentExp: 50000, reqExp: 1000000, role: 'Membro' },
-            { id: '53', name: 'AkSniper', charClass: 'Arqueira', level: 108, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
-            { id: '54', name: 'RunaSagrada', charClass: 'Sacerdotisa', level: 78, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '55', name: 'Rickman', charClass: 'Mecanico', level: 86, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '56', name: 'MJASPER', charClass: 'Cavaleiro', level: 107, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
-            { id: '57', name: 'UchihaFS', charClass: 'Lutador', level: 102, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '58', name: 'ThG', charClass: 'Pike', level: 109, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
-            { id: '59', name: 'AeGonPk', charClass: 'Pike', level: 86, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '60', name: 'stpKiller', charClass: 'Mago', level: 58, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '61', name: 'Callback', charClass: 'Mago', level: 112, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '62', name: 'OzzyPK', charClass: 'Pike', level: 99, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '63', name: '76ers', charClass: 'Mecanico', level: 103, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '64', name: 'Cyn', charClass: 'Sacerdotisa', level: 54, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '65', name: 'XxDanxX', charClass: 'Lutador', level: 104, currentExp: 10000, reqExp: 1000000, role: 'Membro' },
-            { id: '66', name: 'Vascaino420', charClass: 'Lutador', level: 91, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '67', name: 'Detentos', charClass: 'Cavaleiro', level: 89, currentExp: 307100, reqExp: 1000000, role: 'Membro' },
-            { id: '68', name: 'KSdoPURA', charClass: 'Cavaleiro', level: 108, currentExp: 130000, reqExp: 1000000, role: 'Membro' }
+            { id: '2', name: 'zIronTank', charClass: 'Mecanico', level: 114, currentExp: 360000, reqExp: 1000000, role: 'Vice-Líder' },
+            { id: '3', name: 'MJASPER', charClass: 'Cavaleiro', level: 107, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
+            { id: '4', name: 'DrivoFs', charClass: 'Lutador', level: 110, currentExp: 980000, reqExp: 1000000, role: 'Membro' },
+            { id: '5', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '6', name: 'Berrettini', charClass: 'Assassina', level: 110, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
+            { id: '7', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
+            { id: '8', name: 'Rickmam', charClass: 'Mecanico', level: 86, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '9', name: 'TatyFurando', charClass: 'Guerreira', level: 100, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
+            { id: '10', name: 'Felipeelfo', charClass: 'Lutador', level: 114, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '11', name: 'FIGHTNEWS', charClass: 'Lutador', level: 114, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
+            { id: '12', name: 'ThG', charClass: 'Pike', level: 110, currentExp: 900000, reqExp: 1000000, role: 'Membro' },
+            { id: '13', name: 'AkSniper', charClass: 'Arqueira', level: 108, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
+            { id: '14', name: 'XxDanxX', charClass: 'Lutador', level: 104, currentExp: 10000, reqExp: 1000000, role: 'Membro' },
+            { id: '15', name: 'Vascaino420', charClass: 'Lutador', level: 96, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '16', name: 'GearHunter', charClass: 'Lutador', level: 109, currentExp: 700000, reqExp: 1000000, role: 'Membro' },
+            { id: '17', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
+            { id: '18', name: 'biGmACH', charClass: 'Mecanico', level: 94, currentExp: 50000, reqExp: 1000000, role: 'Membro' },
+            { id: '19', name: 'Detentos', charClass: 'Cavaleiro', level: 89, currentExp: 307100, reqExp: 1000000, role: 'Membro' },
+            { id: '20', name: 'AnderMS', charClass: 'Mecanico', level: 107, currentExp: 180000, reqExp: 1000000, role: 'Membro' },
+            { id: '21', name: 'psREXPEITA', charClass: 'Pike', level: 97, currentExp: 10000, reqExp: 1000000, role: 'Membro' },
+            { id: '22', name: 'Aegonpk', charClass: 'Pike', level: 91, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
+            { id: '23', name: 'KSdoPURA', charClass: 'Cavaleiro', level: 108, currentExp: 130000, reqExp: 1000000, role: 'Membro' },
+            { id: '24', name: 'Cyn', charClass: 'Sacerdotisa', level: 70, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
+            { id: '25', name: 'BISC0IT0', charClass: 'Mago', level: 70, currentExp: 50000, reqExp: 1000000, role: 'Membro' },
+            { id: '26', name: 'OszyPK', charClass: 'Pike', level: 101, currentExp: 900000, reqExp: 1000000, role: 'Membro' }
         ];
 
         const INITIAL_ITEMS = [
@@ -463,7 +417,7 @@
             localStorage.setItem('donosdomapa_guides_v1', JSON.stringify(guidesData));
         }
 
-        const savedData = localStorage.getItem('donosdomapa_html_data_v20');
+        const savedData = localStorage.getItem('donosdomapa_html_data_v21');
         if (savedData) {
             members = JSON.parse(savedData);
         } else {
@@ -472,7 +426,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('donosdomapa_html_data_v20', JSON.stringify(members));
+            localStorage.setItem('donosdomapa_html_data_v21', JSON.stringify(members));
             renderTable();
         }
 
