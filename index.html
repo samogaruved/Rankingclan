@@ -296,7 +296,7 @@
         };
 
         const INITIAL_LIST = [
-            { id: '1', name: 'Jbr', charClass: 'Lutador', level: 117, currentExp: 550000, reqExp: 1000000, role: 'Líder' },
+            { id: '1', name: 'SamukaSC', charClass: 'Lutador', level: 117, currentExp: 890000, reqExp: 1000000, role: 'Líder' },
             { id: '2', name: 'Felipeelfo', charClass: 'Lutador', level: 116, currentExp: 100000, reqExp: 1000000, role: 'Membro' },
             { id: '3', name: 'zIronTank', charClass: 'Mecanico', level: 116, currentExp: 300000, reqExp: 1000000, role: 'Vice-Líder' },
             { id: '4', name: 'FIGHTNEWS', charClass: 'Lutador', level: 115, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
@@ -304,7 +304,7 @@
             { id: '6', name: 'Berrettini', charClass: 'Assassina', level: 112, currentExp: 860000, reqExp: 1000000, role: 'Membro' },
             { id: '7', name: 'GearHunter', charClass: 'Lutador', level: 112, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
             { id: '8', name: 'KSdoPURA', charClass: 'Cavaleiro', level: 111, currentExp: 570000, reqExp: 1000000, role: 'Membro' },
-            { id: '9', name: 'MJASPER', charClass: 'Cavaleiro', level: 111, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
+            { id: '9', name: 'MJASPER', charClass: 'Cavaleiro', level: 113, currentExp: 310000, reqExp: 1000000, role: 'Membro' },
             { id: '10', name: 'ThG', charClass: 'Pike', level: 110, currentExp: 900000, reqExp: 1000000, role: 'Membro' },
             { id: '11', name: 'AnderMS', charClass: 'Mecanico', level: 110, currentExp: 160000, reqExp: 1000000, role: 'Membro' },
             { id: '12', name: 'XxDanxX', charClass: 'Lutador', level: 110, currentExp: 40000, reqExp: 1000000, role: 'Membro' },
@@ -319,14 +319,14 @@
             { id: '21', name: 'Aegonpk', charClass: 'Pike', level: 91, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
             { id: '22', name: 'Detentos', charClass: 'Cavaleiro', level: 89, currentExp: 307100, reqExp: 1000000, role: 'Membro' },
             { id: '23', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
-            { id: '24', name: 'BISC0IT0', charClass: 'Mago', level: 87, currentExp: 40000, reqExp: 1000000, role: 'Membro' },
+            { id: '24', name: 'BISC0IT0', charClass: 'Mago', level: 90, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
             { id: '25', name: 'Rickmam', charClass: 'Mecanico', level: 86, currentExp: 0, reqExp: 1000000, role: 'Membro' },
             { id: '26', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000, role: 'Membro' },
             { id: '27', name: 'Cyn', charClass: 'Sacerdotisa', level: 73, currentExp: 840000, reqExp: 1000000, role: 'Membro' }
         ];
 
         const INITIAL_ITEMS = [
-            { id: 1, name: '[Item de Exemplo 01]', type: 'Armadura', stats: 'Defesa: 200\nAbsorção: 5.5', price: '25kk', seller: 'Jbr', rarity: 'text-cyan-400' },
+            { id: 1, name: '[Item de Exemplo 01]', type: 'Armadura', stats: 'Defesa: 200\nAbsorção: 5.5', price: '25kk', seller: 'SamukaSC', rarity: 'text-cyan-400' },
             { id: 2, name: '[Item de Exemplo 02]', type: 'Arma', stats: 'Dano: 100-150\nTaxa de Acerto: 10%', price: '10kk', seller: 'MembroExemplo', rarity: 'text-slate-300' },
             { id: 3, name: '[Item de Exemplo 03]', type: 'Acessório', stats: 'Adiciona +20 de Força', price: '50kk', seller: 'OutroExemplo', rarity: 'text-amber-400' }
         ];
@@ -418,7 +418,7 @@
             localStorage.setItem('donosdomapa_guides_v2', JSON.stringify(guidesData));
         }
 
-        const savedData = localStorage.getItem('donosdomapa_html_data_v23');
+        const savedData = localStorage.getItem('donosdomapa_html_data_v26');
         if (savedData) {
             members = JSON.parse(savedData);
         } else {
@@ -427,7 +427,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('donosdomapa_html_data_v23', JSON.stringify(members));
+            localStorage.setItem('donosdomapa_html_data_v26', JSON.stringify(members));
             renderTable();
         }
 
@@ -509,7 +509,7 @@
                 const percent = ((member.currentExp / member.reqExp) * 100).toFixed(2);
             
             let roleTag = '';
-            if (member.role === 'Líder' || member.name === 'Jbr') {
+            if (member.role === 'Líder' || member.name === 'SamukaSC') {
                 roleTag = '<span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-black bg-amber-500/20 text-amber-400 border border-amber-500/40 uppercase tracking-wider shadow-[0_0_12px_rgba(245,158,11,0.25)]"><i class="fa-solid fa-crown mr-1.5"></i>LÍDER</span>';
             } else if (member.role === 'Vice-Líder' || member.name === 'zIronTank') {
                 roleTag = '<span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-black bg-slate-400/20 text-slate-300 border border-slate-400/40 uppercase tracking-wider shadow-[0_0_12px_rgba(148,163,184,0.15)]"><i class="fa-solid fa-star mr-1.5"></i>VICE-LÍDER</span>';
