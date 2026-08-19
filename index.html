@@ -207,6 +207,7 @@
         </div>
 
         <div id="modalOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
+            <!-- Modal Formulário Membro -->
             <div id="formModal" class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 shadow-2xl hidden">
                 <h3 id="modalTitle" class="text-xl font-bold text-white mb-6">Membro</h3>
                 <form id="memberForm" class="space-y-4">
@@ -252,6 +253,7 @@
                 </form>
             </div>
 
+            <!-- Modal Excluir Membro -->
             <div id="deleteModal" class="bg-slate-900 border border-rose-900/50 rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center hidden">
                 <div class="w-16 h-16 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center mx-auto mb-4">
                     <i class="fa-solid fa-trash-can text-3xl"></i>
@@ -264,6 +266,7 @@
                 </div>
             </div>
 
+            <!-- Modal Senha Admin -->
             <div id="adminModal" class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-sm p-6 shadow-2xl hidden">
                 <h3 class="text-xl font-bold text-white mb-2">Acesso Restrito</h3>
                 <p class="text-slate-400 text-sm mb-6">Digite a senha de administrador do clã.</p>
@@ -296,31 +299,31 @@
         };
 
         const INITIAL_LIST = [
-            { id: '1', name: 'SamukaSC', charClass: 'Lutador', level: 117, currentExp: 890000, reqExp: 1000000, role: 'Líder' },
-            { id: '2', name: 'Felipeelfo', charClass: 'Lutador', level: 116, currentExp: 100000, reqExp: 1000000, role: 'Membro' },
-            { id: '3', name: 'zIronTank', charClass: 'Mecanico', level: 116, currentExp: 300000, reqExp: 1000000, role: 'Vice-Líder' },
-            { id: '4', name: 'FIGHTNEWS', charClass: 'Lutador', level: 115, currentExp: 500000, reqExp: 1000000, role: 'Membro' },
-            { id: '5', name: 'DrivoFs', charClass: 'Lutador', level: 116, currentExp: 760000, reqExp: 1000000, role: 'Membro' },
-            { id: '6', name: 'Berrettini', charClass: 'Assassina', level: 112, currentExp: 860000, reqExp: 1000000, role: 'Membro' },
-            { id: '7', name: 'GearHunter', charClass: 'Lutador', level: 112, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
-            { id: '8', name: 'KSdoPURA', charClass: 'Cavaleiro', level: 111, currentExp: 570000, reqExp: 1000000, role: 'Membro' },
-            { id: '9', name: 'MJASPER', charClass: 'Cavaleiro', level: 113, currentExp: 310000, reqExp: 1000000, role: 'Membro' },
-            { id: '10', name: 'ThG', charClass: 'Pike', level: 110, currentExp: 900000, reqExp: 1000000, role: 'Membro' },
-            { id: '11', name: 'AnderMS', charClass: 'Mecanico', level: 110, currentExp: 160000, reqExp: 1000000, role: 'Membro' },
+            { id: '1', name: 'SamukaSC', charClass: 'Lutador', level: 118, currentExp: 700000, reqExp: 1000000, role: 'Líder' },
+            { id: '2', name: 'Felipeelfo', charClass: 'Lutador', level: 117, currentExp: 220000, reqExp: 1000000, role: 'Membro' },
+            { id: '3', name: 'zIronTank', charClass: 'Mecanico', level: 117, currentExp: 170000, reqExp: 1000000, role: 'Vice-Líder' },
+            { id: '4', name: 'DrivoFs', charClass: 'Lutador', level: 116, currentExp: 760000, reqExp: 1000000, role: 'Membro' },
+            { id: '5', name: 'FIGHTNEWS', charClass: 'Lutador', level: 117, currentExp: 250000, reqExp: 1000000, role: 'Membro' },
+            { id: '6', name: 'MJASPER', charClass: 'Cavaleiro', level: 113, currentExp: 310000, reqExp: 1000000, role: 'Membro' },
+            { id: '7', name: 'Berrettini', charClass: 'Assassina', level: 114, currentExp: 400000, reqExp: 1000000, role: 'Membro' },
+            { id: '8', name: 'KSdoPURA', charClass: 'Cavaleiro', level: 112, currentExp: 220000, reqExp: 1000000, role: 'Membro' },
+            { id: '9', name: 'GearHunter', charClass: 'Lutador', level: 112, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
+            { id: '10', name: 'ThG', charClass: 'Pike', level: 112, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
+            { id: '11', name: 'AnderMS', charClass: 'Mecanico', level: 112, currentExp: 770000, reqExp: 1000000, role: 'Membro' },
             { id: '12', name: 'XxDanxX', charClass: 'Lutador', level: 110, currentExp: 40000, reqExp: 1000000, role: 'Membro' },
             { id: '13', name: 'AkSniper', charClass: 'Arqueira', level: 108, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
             { id: '14', name: 'EliteGRV', charClass: 'Mecanico', level: 106, currentExp: 820000, reqExp: 1000000, role: 'Membro' },
-            { id: '15', name: 'OszyPK', charClass: 'Pike', level: 104, currentExp: 90000, reqExp: 1000000, role: 'Membro' },
-            { id: '16', name: 'TatyFurando', charClass: 'Guerreira', level: 103, currentExp: 670000, reqExp: 1000000, role: 'Membro' },
-            { id: '17', name: 'psREXPEITA', charClass: 'Pike', level: 105, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
-            { id: '18', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
-            { id: '19', name: 'Vascaino420', charClass: 'Lutador', level: 96, currentExp: 0, reqExp: 1000000, role: 'Membro' },
-            { id: '20', name: 'biGmACH', charClass: 'Mecanico', level: 94, currentExp: 50000, reqExp: 1000000, role: 'Membro' },
-            { id: '21', name: 'Aegonpk', charClass: 'Pike', level: 91, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
-            { id: '22', name: 'Detentos', charClass: 'Cavaleiro', level: 89, currentExp: 307100, reqExp: 1000000, role: 'Membro' },
-            { id: '23', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
-            { id: '24', name: 'BISC0IT0', charClass: 'Mago', level: 90, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
-            { id: '25', name: 'Rickmam', charClass: 'Mecanico', level: 86, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '15', name: 'psREXPEITA', charClass: 'Pike', level: 106, currentExp: 180000, reqExp: 1000000, role: 'Membro' },
+            { id: '16', name: 'OszyPK', charClass: 'Pike', level: 104, currentExp: 90000, reqExp: 1000000, role: 'Membro' },
+            { id: '17', name: 'TatyFurando', charClass: 'Guerreira', level: 103, currentExp: 670000, reqExp: 1000000, role: 'Membro' },
+            { id: '18', name: 'Rickmam', charClass: 'Mecanico', level: 103, currentExp: 900000, reqExp: 1000000, role: 'Membro' },
+            { id: '19', name: 'GbMasca', charClass: 'Mecanico', level: 99, currentExp: 20000, reqExp: 1000000, role: 'Membro' },
+            { id: '20', name: 'Vascaino420', charClass: 'Lutador', level: 96, currentExp: 0, reqExp: 1000000, role: 'Membro' },
+            { id: '21', name: 'biGmACH', charClass: 'Mecanico', level: 94, currentExp: 50000, reqExp: 1000000, role: 'Membro' },
+            { id: '22', name: 'BISC0IT0', charClass: 'Mago', level: 90, currentExp: 800000, reqExp: 1000000, role: 'Membro' },
+            { id: '23', name: 'Aegonpk', charClass: 'Pike', level: 91, currentExp: 300000, reqExp: 1000000, role: 'Membro' },
+            { id: '24', name: 'Detentos', charClass: 'Cavaleiro', level: 89, currentExp: 307100, reqExp: 1000000, role: 'Membro' },
+            { id: '25', name: 'DeusaArtem1s', charClass: 'Arqueira', level: 87, currentExp: 200000, reqExp: 1000000, role: 'Membro' },
             { id: '26', name: 'Kiguti', charClass: 'Assassina', level: 80, currentExp: 0, reqExp: 1000000, role: 'Membro' },
             { id: '27', name: 'Cyn', charClass: 'Sacerdotisa', level: 73, currentExp: 840000, reqExp: 1000000, role: 'Membro' }
         ];
@@ -418,7 +421,7 @@
             localStorage.setItem('donosdomapa_guides_v2', JSON.stringify(guidesData));
         }
 
-        const savedData = localStorage.getItem('donosdomapa_html_data_v26');
+        const savedData = localStorage.getItem('donosdomapa_html_data_v27');
         if (savedData) {
             members = JSON.parse(savedData);
         } else {
@@ -427,7 +430,7 @@
         }
 
         function saveData() {
-            localStorage.setItem('donosdomapa_html_data_v26', JSON.stringify(members));
+            localStorage.setItem('donosdomapa_html_data_v27', JSON.stringify(members));
             renderTable();
         }
 
